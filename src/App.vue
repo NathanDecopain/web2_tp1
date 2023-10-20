@@ -4,10 +4,8 @@ import NavbarComponent from "./components/NavbarComponent.vue";
 </script>
 
 <template>
-  <div id="app">
-    <navbar-component v-if="!$route.meta.noNav"></navbar-component>
-    <router-view></router-view>
-  </div>
+  <navbar-component v-if="!$route.meta.noNav"></navbar-component>
+  <router-view></router-view>
 </template>
 
 <style>

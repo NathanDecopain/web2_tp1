@@ -16,5 +16,13 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
+// Authentication
+firebaseApp.auth = getAuth(firebaseApp)
+firebaseApp.auth.setPersistence(browserLocalPersistence).then(_ => {}) // Session stays in LocalStorage until user logs out
+
+
+export {
+    firebaseApp
+}

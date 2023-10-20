@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 // Import routes
 import HomeView from "../views/HomeView.vue";
 import * as path from "path";
-import SignUpView from "../views/SignUpView.vue";
+import RegisterView from "../views/RegisterView.vue";
+import LoginView from "../views/LoginView.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -12,14 +13,19 @@ export const router = createRouter({
             path: '/',
             name: 'Home',
             component: HomeView
-        }, // TODO: Switch out with a proper homepage
+        },
         {
-            path: '/signup',
+            path: '/register',
             name: 'SignUp',
-            component: SignUpView,
+            component: RegisterView,
             meta: {
                 noNav: true
             }
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: LoginView
         }
     ]
 })
