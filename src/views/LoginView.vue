@@ -1,6 +1,6 @@
 <script>
 import InputFieldComponent from "../components/forms/InputFieldComponent.vue";
-import {checkFormField, clearFormError, initFormField} from "../modules/forms.js";
+import {checkFormField, clearFormError, initFormField, setFormError} from "../modules/forms.js";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {useUserStore} from "../stores/userStore.js";
 import {firebaseApp} from "../firebaseSetup/firebaseConfig.js";
@@ -34,6 +34,15 @@ export default {
             })
             .then(() => {
               this.$router.push("/conversations")
+            })
+            .catch((e) => {
+              switch (e.code) {
+                case "auth/invalid-login-credentials":
+                  setFormError(this.globalMessage, "Courriel ou mot de passe invalide.")
+                    setFormError(this.email, "")
+                    setFormError(this.password, "")
+                  break;
+              }
             })
         // *** Throw errors ***
       }

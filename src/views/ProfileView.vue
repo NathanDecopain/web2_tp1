@@ -393,6 +393,11 @@ export default {
     },
   created() {
       this.fetchProfileData()
+  },
+  async beforeCreate() {
+    if (!this.userStore.user.uid) {
+      this.$router.push("/login")
+    }
   }
 }
   /*TODO: FIX FALSE POSITIVE ERROR / DUPLICATE USER CREATION */

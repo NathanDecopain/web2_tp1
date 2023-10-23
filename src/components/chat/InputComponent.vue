@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     async handleSend() {
+      if (this.text.trim().length === 0) return
       const sentMessageRef = await updateDoc(doc(firebaseApp.db, "group_messages", this.chatStore.chatMessagesId), {
         messages: arrayUnion({
           text: this.text,
@@ -90,7 +91,7 @@ export default {
 
 <template>
 <div class="chatInput">
-  <input v-model="this.text" type="text" placeholder="Tapez un message...">
+  <input v-model="this.text" type="text" placeholder="Tapez un message..." @keyup.enter="handleSend">
   <div class="send">
     <!--HANDLE LATER <input type="file" style="display: none" id="file">-->
     <!--<input type="image" style="display: none" id="image" alt="">-->

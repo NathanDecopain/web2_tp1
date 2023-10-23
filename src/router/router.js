@@ -50,12 +50,4 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach((to) => {
-    // ✅ This will work because the router starts its navigation after
-    // the router is installed and pinia will be installed too
-    const store = useUserStore()
-
-    if (to.meta.requiresAuth && !store.isUserLoggedIn()) return '/login'
-})
-
 export { router }

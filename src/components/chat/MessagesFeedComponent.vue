@@ -16,7 +16,7 @@ export default {
     return {
       messages: [],
       member_ids: [],
-      memberMetadata: {},
+      memberMetadata: {}
     }
   },
   methods: {
@@ -43,7 +43,6 @@ export default {
               memberMetadata[doc.id] = doc.data()
         })
         this.memberMetadata = memberMetadata
-        console.log(memberMetadata)
       });
     },
     async updateLastChecked() {
@@ -54,54 +53,55 @@ export default {
           last_checked: Timestamp.now()
         }
       }, { merge: true })
-      console.log((await getDoc(groupRef)).data())
     },
     scrollChatToBottom() {
       const chat = this.$refs.messagesFeed
       // First check the user's scroll position
       const currentScrollingPosition = chat.scrollTop
-      const autoScrollTriggerLargerThan = chat.scrollHeight - (chat.clientHeight*2 + chat.lastElementChild.offsetHeight) - 100
-      console.log(`currentScrollingPosition = ${currentScrollingPosition}\n
+      let lastElementOffsetHeight = 0;
+      if (chat.lastElementChild !== null) {
+        lastElementOffsetHeight = chat.lastElementChild.offsetHeight
+      }
+      const autoScrollTriggerLargerThan = chat.scrollHeight - (chat.clientHeight*2 + lastElementOffsetHeight) - 100
+      /*console.log(`currentScrollingPosition = ${currentScrollingPosition}\n
                     autoScrollTriggerLargerThan = ${autoScrollTriggerLargerThan}\n
                     elementBottom = ${chat.scrollHeight}
                     chatClientHeight = ${chat.clientHeight}
-                    chatLastElementChildHeight = ${chat.lastElementChild.offsetHeight}\n`)
+                    chatLastElementChildHeight = ${chat.lastElementChild.offsetHeight}\n`)*/
+      if (!this.userStore.initialScrollDone) {
+        setTimeout(() => {
+          chat.scrollTo({behavior: "instant", top: chat.scrollHeight})
+        }, 50)
+        this.userStore.initialScrollDone = true
+      }
       // If user's scroll position is higher than a certain threshold, don't auto scroll
       if (currentScrollingPosition >= autoScrollTriggerLargerThan) {
          chat.scrollTo({behavior: "smooth", top: chat.scrollHeight})
       }
       // If user's scroll position is lower than a certain threshold, auto scroll
-
     }
   },
   created() {
-    this.fetchMessagesAndInfo()
+    this.fetchMessagesAndInfo().then(() => {
+      this.scrollChatToBottom()
+    })
     this.chatStore.$subscribe((newValue) => {
       this.fetchMessagesAndInfo()
     })
   },
+  async beforeMount() {
+    await this.fetchMessagesAndInfo()
+  },
   mounted() {
     const observeChat = new MutationObserver(this.scrollChatToBottom)
     observeChat.observe(this.$refs.messagesFeed, { childList: true })
-    /*this.$watch(() => {
-      // Touch the properties we want to watch
-      this.messages;
-
-      // Return a new value so Vue calls the handler when
-      // this function is re-executed
-      return {};
-    }, () => {
-      // p1 or p2 changed
-      this.autoScroll()
-    })
-    this.autoScroll()*/
   }
 }
 </script>
 
 <template>
   <div ref="messagesFeed" class="messagesFeed">
-    <div v-if="this.memberMetadata" v-for="message in messages" :class="['chatMessage', {'owner': message.sent_by === this.userStore.user.uid}]">
+    <div v-if="this.messages && this.messages.length > 0 && this.memberMetadata" v-for="message in messages" :class="['chatMessage', {'owner': message.sent_by === this.userStore.user.uid}]">
       <!--HANDLE DAY CHANGES <div v-if="message.sent_at.toDate().getDay()"></div>-->
       <Message :timestamp="message.sent_at.toDate()"
                :senderId="message.sent_by"

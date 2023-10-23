@@ -37,7 +37,6 @@
             last_checked: Timestamp.now()
           }
         }, { merge: true })
-        console.log((await getDoc(groupRef)).data())
       },
       fetchSenderNameById(id) {
         let name = ""
@@ -54,14 +53,12 @@
             })
       },
       compareDates(date1, date2) {
-        console.log(date1, date2)
         return date1 < date2
       }
     },
-
     created() {
       this.fetchUserGroups()
-    }
+    },
   }
 </script>
 
@@ -70,6 +67,7 @@
     <div v-if="userGroups" v-for="group in this.userGroups" v-on:change="console.log(group)" :key="group.id"
          @click="() => {
            chatStore.switchChat(group.id);
+           this.userStore.initialScrollDone = false;
            this.updateLastChecked();
          }" :class="['userChat', {'chatSelected':this.chatStore.chatMessagesId === group.id}]">
       <img :src="group.icon_url" alt="">

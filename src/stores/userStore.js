@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', {
         // TODO: Make sure auth persistence is working appropriately (e. g. resets loggedin status once auth expires, logs out...)
         user: useLocalStorage("user", {}),
         chatMessagesId: useLocalStorage("chatMessagesId", {}),
+        initialScrollDone: useLocalStorage("initialScroll", false)
     }),
     getters: {
         // TODO: User Getters
@@ -31,7 +32,7 @@ export const useUserStore = defineStore('user', {
         async updateLastChecked() {
             const groupRef = doc(firebaseApp.db, "user_groups", this.$state.user.uid)
             await setDoc(groupRef, {
-                [this.state.chatMessagesId]: {
+                [this.$state.chatMessagesId]: {
                     id: this.$state.chatMessagesId,
                     last_checked: Timestamp.now()
                 }
@@ -39,7 +40,13 @@ export const useUserStore = defineStore('user', {
             console.log((await getDoc(groupRef)).data())
         },
         async isUserLoggedIn() {
-            return !!firebaseApp.auth.currentUser
+            if (this.$state.user.uid) {
+                console.log("User is logged in")
+                return true
+            } else {
+                console.log("User is not logged in")
+                return false
+            }
         }
     },
 })

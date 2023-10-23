@@ -19,7 +19,7 @@
 
         </p>
         <div class="level-right">
-          <div class="user">
+          <div class="user" @mouseleave="dropdownIsActive = false">
             <!--Make it a dropdown menu-->
             <div :class="['dropdown', 'is-right', {'is-active': dropdownIsActive }]" style="display: flex">
               <div class="dropdown-trigger user" @click="dropdownIsActive = !dropdownIsActive" style="cursor: pointer">

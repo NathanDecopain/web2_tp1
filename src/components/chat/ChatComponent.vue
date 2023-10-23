@@ -23,9 +23,7 @@ export default {
     async fetchGroupInfo() {
       let groupData = await getDoc(doc(firebaseApp.db, "user_groups", this.userStore.user.uid))
       groupData = await groupData.data()
-      groupData = Array(await groupData).filter((group) => group.id === this.chatStore.chatMessagesId)
-      groupData = groupData[0]
-      console.log(groupData)
+      groupData = groupData[this.chatStore.chatMessagesId]
       this.groupName = groupData.name;
     }
   },
