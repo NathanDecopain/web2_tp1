@@ -1,0 +1,85 @@
+.search {
+    border-bottom: 2px solid rgb(84, 132, 183);
+}
+.searchForm {
+    padding: 10px;
+    background: linear-gradient(0deg, rgba(49, 77, 107, 1) 5%, rgba(24, 36, 49, 0) 50%);
+}
+.searchForm input {
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+}
+
+.searchForm input ::placeholder {
+    color: #4a4a4a;
+}
+
+.userChat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.userInSearch {
+    background-color: #314d6b;
+}
+
+.userChat:hover {
+    background-color: #314d6b;
+}
+
+.userInSearch:hover {
+    background-color: #f59c3e;
+}
+
+.userChat img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.userChatInfo span {
+    font-size: 18px; font-weight: 500;
+}
+
+.userChatInfo p {
+    font-size: 14px;
+}
+
+.chat {
+    height: 100%;
+    width: 100%
+}
+
+.chatInfo {
+    background-color: #376391;
+    color: whitesmoke;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.chatInfo .chatIcons {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.chatInput {
+    height: 50px;
+    background-color: #383a40;
+    padding: 10px;
+}
+
+.chatSelected {
+    background-color: #182431;
+}

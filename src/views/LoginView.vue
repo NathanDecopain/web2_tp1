@@ -33,7 +33,7 @@ export default {
               this.userStore.user = response.user
             })
             .then(() => {
-              this.$router.push("/")
+              this.$router.push("/conversations")
             })
         // *** Throw errors ***
       }
@@ -117,8 +117,8 @@ export default {
 
 <style scoped>
 #bgImg {
-  margin-top: -70px;
-  padding-top: 70px;
+  margin-top: -65px;
+  padding-top: 65px;
   background: url("/backgrounds/login_bg.png") no-repeat top;
   background-size: cover;
   height: 100vh
